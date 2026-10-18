@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>FieldCraft</title>
+  <meta name="description" content="Open-source CAE modeling in Rust: mesh a part, set up the analysis and solve it, in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="FieldCraft">
+  <meta property="og:title" content="FieldCraft">
+  <meta property="og:description" content="Open-source CAE built in Rust: structures, heat, fluids, and MCP for AI agents.">
+  <meta property="og:url" content="https://tangency-labs.github.io/fieldcraft/">
+  <meta property="og:image" content="https://tangency-labs.github.io/fieldcraft/og.png">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="640">
+  <meta property="og:image:alt" content="FieldCraft: Open-source CAE built in Rust">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FieldCraft">
+  <meta name="twitter:description" content="Open-source CAE built in Rust: structures, heat, fluids, and MCP for AI agents.">
+  <meta name="twitter:image" content="https://tangency-labs.github.io/fieldcraft/og.png">
+  
+<script type="module">
+import init, * as bindings from './fieldcraft-web-12b19de5f8419589.js';
+const wasm = await init({ module_or_path: './fieldcraft-web-12b19de5f8419589_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script>
+  <link rel="icon" href="./icon-small-b485d8a107822557.svg" integrity="sha384-TY/ybNWR/SIGWKc9S/xB2lueQyxL5E0VwBcSi0KkHAbkyBWB2eWfARhb3JgykbwF"/>
+  
+  
+  <link rel="apple-touch-icon" href="icons/icon_128x128@2x.png">
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #262c37; }
+    #fieldcraft_canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    #fieldcraft_loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 16px; padding: 0 16px; text-align: center; color: #c3cad6; font: 14px system-ui, sans-serif; pointer-events: none; }
+    #fieldcraft_loading img { width: 96px; height: 96px; }
+    #fieldcraft_loading p { margin: 0; max-width: 32em; }
+    #fieldcraft_loading.failed { pointer-events: auto; }
+    #fieldcraft_loading.failed img, #fieldcraft_loading.failed .spinner { display: none; }
+    .spinner { width: 24px; height: 24px; border-radius: 50%; border: 3px solid #4a5468; border-top-color: #c3cad6; animation: spin 0.9s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+  </style>
+<link rel="modulepreload" href="./fieldcraft-web-12b19de5f8419589.js" crossorigin="anonymous" integrity="sha384-qE20D1VVtLCvLY4LaT5YfbRWHQw+olac9fZSui++t3mR14Tr74O+MpmyOMZEAza9"><link rel="preload" href="./fieldcraft-web-12b19de5f8419589_bg.wasm" crossorigin="anonymous" integrity="sha384-wKaqO3plgiTsXfi7p5Tf5UmuRE2AbPtW+ZO3gi0HyLej3ArrLk94D3ZKqQ/g28Uf" as="fetch" type="application/wasm"></head>
+<body>
+  <canvas id="fieldcraft_canvas"></canvas>
+  <div id="fieldcraft_loading">
+    <img src="icons/icon_128x128@2x.png" alt="">
+    <div class="spinner"></div>
+    <p>Loading FieldCraft&hellip;</p>
+    <noscript><p>FieldCraft needs JavaScript and WebAssembly.</p></noscript>
+  </div>
+  <script>
+    // The page could not load or start the app (no WebAssembly, a failed download): say so
+    // instead of loading forever. Once the app runs it removes the loading screen.
+    (function () {
+      function fail(why) {
+        var el = document.getElementById("fieldcraft_loading");
+        if (!el || el.classList.contains("failed")) return;
+        el.classList.add("failed");
+        el.textContent = "";
+        ["FieldCraft could not start: " + why, "It needs a current browser with WebAssembly and WebGPU or WebGL2."].forEach(function (t) {
+          var p = document.createElement("p");
+          p.textContent = t;
+          el.appendChild(p);
+        });
+      }
+      if (typeof WebAssembly !== "object") fail("this browser has no WebAssembly.");
+      addEventListener("unhandledrejection", function (e) { fail(String(e.reason && e.reason.message || e.reason)); });
+    })();
+  </script>
+</body>
+</html>
